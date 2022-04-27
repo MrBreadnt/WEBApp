@@ -1,11 +1,11 @@
 import json
 
-from flask import Flask, request, url_for, render_template
+from flask import Flask, request, url_for, render_template, make_response, jsonify
 from flask_login import LoginManager, login_manager, login_user, logout_user, login_required, current_user
 
 from werkzeug.utils import redirect
 from datetime import timedelta
-from data import db_session
+from data import db_session, api
 from data.models import *
 from forms.user import *
 
@@ -129,10 +129,16 @@ def logout():
     return redirect("/")
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 if __name__ == '__main__':
     # db_session.global_init(os.environ.get("DATABASE_URL").replace("postgres://", "postgresql://", 1))
 
     db_session.global_init("db/database.db")
+    app.register_blueprint(api.blueprint)
 
     '''
     db_sess = db_session.create_session()
