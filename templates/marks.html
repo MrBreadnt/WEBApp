@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Ученик</th>
+        <th scope="col">Название теста</th>
+        <th scope="col">Балл</th>
+        <th scope="col">Дата</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in tests %}
+    <tr>
+        <th scope="row">{{db_sess.query(User).filter(User.id == i.user_id).first().name}}</th>
+        <td>{{req.filter(Test.id == i.test_id).first().name}}</td>
+        <th scope="row">{{i.percent}}</th>
+        <td>{{i.date}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</p>
+{% endblock %}

@@ -1,0 +1,52 @@
+body, html
+{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    background: #FFF;
+}
+ 
+.wrapper
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.letters
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter
+{
+    font-family: Arial;
+    font-size: 6vw;
+    font-weight: bold;
+    cursor: pointer;
+    border-style: none;
+    background: none;
+    outline: none;
+    letter-spacing: 0px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+input[type="button"]:hover
+{
+    font-size: 7vw;
+    color: red;
+}
+
+.canvas
+{
+    background: #c7b77d;
+}

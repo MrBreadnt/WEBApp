@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+{% if current_user.is_authenticated %}
+    <a class="btn btn-success" href="/test">Пройти тест</a>
+{% else %}
+    <a class="btn btn-primary " href="/register">Зарегистрируйтесь</a><br>
+    или<br>
+    <a class="btn btn-success" href="/login">Войдите</a><br>
+    чтобы выполнять тесты
+{% endif %}
+</p>
+{% endblock %}
