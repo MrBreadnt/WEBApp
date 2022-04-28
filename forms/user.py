@@ -2,9 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, TextAreaField, SubmitField, EmailField
 from wtforms.validators import DataRequired
 
-from data import db_session
-from data.models import User, UserURL
-
 
 class RegisterForm(FlaskForm):
     login = StringField('Логин (используется для входа в систему)', validators=[DataRequired()])
@@ -20,5 +17,3 @@ class LoginForm(FlaskForm):
     login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     submit = SubmitField('Войти')
-
-

@@ -2,13 +2,15 @@
 
 {% block content %}
 <p>
-{% if current_user.is_authenticated %}
-    <a class="btn btn-success" href="/test">Пройти тест</a>
-{% else %}
+    {% if current_user.is_authenticated %}
+    {% for i in tests %}
+    <a class="btn btn-success" href="/test/{{i.id}}">{{i.name}}</a>
+    {% endfor %}
+    {% else %}
     <a class="btn btn-primary " href="/register">Зарегистрируйтесь</a><br>
     или<br>
     <a class="btn btn-success" href="/login">Войдите</a><br>
     чтобы выполнять тесты
-{% endif %}
+    {% endif %}
 </p>
 {% endblock %}

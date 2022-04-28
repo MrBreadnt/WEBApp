@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask, request, url_for, render_template, make_response, jsonify
 from flask_login import LoginManager, login_manager, login_user, logout_user, login_required, current_user
@@ -29,7 +30,9 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Главная')
+    db_sess = db_session.create_session()
+    tests = db_sess.query(Test).all()
+    return render_template('index.html', title='Главная', tests=tests)
 
 
 @app.route('/marks')
@@ -52,22 +55,22 @@ def marks():
                            db_sess=db_sess)
 
 
-@app.route('/test', methods=['POST', 'GET'])
-def game():
+@app.route('/test/<int:test_id>', methods=['POST', 'GET'])
+def game(test_id):
     if request.method == 'GET':
         return render_template("game.html", title="test")
     elif request.method == 'POST':
         req = request.json
         if req['request'] == 'get_words':
             db_sess = db_session.create_session()
-            f = db_sess.query(Test).filter(Test.id == req['test_id']).first()
+            f = db_sess.query(Test).filter(Test.id == test_id).first()
             return json.dumps(
                 {'test_id': f.id,
                  'name': f.name,
                  'words': list(map(lambda x: x['word'], json.loads(f.test)))})
         elif req['request'] == 'push_answers':
             db_sess = db_session.create_session()
-            f = db_sess.query(Test).filter(Test.id == req['test_id']).first()
+            f = db_sess.query(Test).filter(Test.id == test_id).first()
             answers = list(map(lambda x: x['answer'], json.loads(f.test)))
             _sum = 0
             for i, j in enumerate(req['answers']):
@@ -139,7 +142,7 @@ if __name__ == '__main__':
 
     db_session.global_init("db/database.db")
     app.register_blueprint(api.blueprint)
-
+    port = int(os.environ.get("PORT", 5000))
     '''
     db_sess = db_session.create_session()
     user = User()
@@ -168,5 +171,5 @@ if __name__ == '__main__':
     db_sess.commit()
     '''
 
-    app.run(host='192.168.0.7', port='5000')
+    app.run(host='0.0.0.0', port=port)
     # mabezmenova UKM-dMQ-CiV-Mp8
